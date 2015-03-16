@@ -30,7 +30,6 @@ int main(int argc, char **argv)
     }
     else if (argc > 2)
     {
-    
         printf("Error: More than one argument specified.\nUsage: gh-get <GitHub user>/<repository>\n");
         return 2;
     }
