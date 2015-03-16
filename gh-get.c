@@ -20,8 +20,8 @@
 
 int main(int argc, char **argv)
 {
-	int i;
-	
+    int i;
+    
     /* Only taking one arg for now, yell if we get more or less. */
     if(argc < 2)
     {
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     
     /* Run our git clone/pull. */
     i=system(cmdstr);
-	
+    
     /* Return whatever value we got. */
-	return i;
+    return i;
 }
