@@ -22,21 +22,30 @@
 
 #DEFINE USAGE "gh-get <GitHub user>/<repository> [-t <path_name>]"
 
-
+//there is a good design pattern for reading arbitrarily many args
+//in arbitrary order, but I forgot exactly how it works
+//will need to look up an example later
 int main(int argc, char **argv)
 {
     int i;
-    
+    char* target[255] = " ";
     /* Only taking one arg for now, yell if we get more or less. */
     switch(argc)
     {
-        printf("Error: Less than one argument specified.\nUsage: %s",USAGE);
-        
-    }
-    default:
-    {
-        printf("Error: Too many arguments!\nUsage: %s\n",USAGE);
-        return 2;
+        case 0:
+            printf("Error: Less than one argument specified.\nUsage: %s",USAGE);
+        case 1:
+            break;
+        case 2:
+            printf("Warning: Empty target path specified.\nUsage: %s",USAGE);
+            break;
+        case 3:
+            strcat(target, argv[2]);
+            break;
+            
+        default:
+            printf("Error: Too many arguments!\nUsage: %s\n",USAGE);
+            return 2;
     }
     
     /* Store input and isolate repo name. */
@@ -62,12 +71,13 @@ int main(int argc, char **argv)
     }
     else
     {
-        /* If repo does not exist, clone the repo. */
+        /* If repo does not exist, clone the repo.
+           What is being cloned?*/
         strcat(cmdstr, "clone https://github.com/");
         strcat(cmdstr, input);
         strcat(cmdstr, ".git");
     }
-    
+    strcat(cmdstr,target);
     /* Run our git clone/pull. */
     i=system(cmdstr);
     
