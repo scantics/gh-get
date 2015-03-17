@@ -9,28 +9,33 @@
 *   apt-get by cloning the repo if one does not exist, and updating the repo
 *   with a pull if it already exists.
 *   
-*   Usage: gh-get <GitHub user>/<repository>
+*   Usage: gh-get <GitHub user>/<repository> -t [path_name]
 *   
 *******************************************************************************/
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 
+
+#DEFINE USAGE "gh-get <GitHub user>/<repository> [-t <path_name>]"
+
+
 int main(int argc, char **argv)
 {
     int i;
     
     /* Only taking one arg for now, yell if we get more or less. */
-    if(argc < 2)
+    switch(argc)
     {
-        printf("Error: Less than one argument specified.\nUsage: gh-get <GitHub user>/<repository>\n");
-        return 1;
+        printf("Error: Less than one argument specified.\nUsage: %s",USAGE);
+        
     }
-    else if (argc > 2)
+    default:
     {
-        printf("Error: More than one argument specified.\nUsage: gh-get <GitHub user>/<repository>\n");
+        printf("Error: Too many arguments!\nUsage: %s\n",USAGE);
         return 2;
     }
     
