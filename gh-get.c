@@ -20,33 +20,27 @@
 #include <sys/stat.h>
 
 
-#DEFINE USAGE "gh-get <GitHub user>/<repository> [-t <path_name>]"
+#define USAGE "gh-get <GitHub user>/<repository> [-t <path_name>]"
 
-//there is a good design pattern for reading arbitrarily many args
-//in arbitrary order, but I forgot exactly how it works
-//will need to look up an example later
 int main(int argc, char **argv)
 {
     int i;
-    char* target[255] = " ";
+    char target[255];
+    target[0] = ' ';
+    bool target_set = false;
     /* Only taking one arg for now, yell if we get more or less. */
-    switch(argc)
-    {
-        case 0:
-            printf("Error: Less than one argument specified.\nUsage: %s",USAGE);
-        case 1:
-            break;
-        case 2:
-            printf("Warning: Empty target path specified.\nUsage: %s",USAGE);
-            break;
-        case 3:
-            strcat(target, argv[2]);
-            break;
-            
-        default:
-            printf("Error: Too many arguments!\nUsage: %s\n",USAGE);
-            return 2;
+    for(i = 1; i < argc; ++i) {
+        if(strcmp(argv[i],"-t") == 0) {
+            if(i < argc-1) {
+                strcat(target,argv[i+1]);
+                target_set = true;
+            } else {
+                printf("No target path specified.\nUsage: %s",USAGE);
+                return -1;
+            }
+        }
     }
+
     
     /* Store input and isolate repo name. */
     char * input = argv[1];
@@ -77,7 +71,9 @@ int main(int argc, char **argv)
         strcat(cmdstr, input);
         strcat(cmdstr, ".git");
     }
-    strcat(cmdstr,target);
+    if(target_set) {
+        strcat(cmdstr,target);
+    }
     /* Run our git clone/pull. */
     i=system(cmdstr);
     
