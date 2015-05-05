@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     target[0] = ' ';
     bool target_set = false;
     /* Only taking one arg for now, yell if we get more or less. */
-    for(i = 1; i < argc; ++i) {
+    for(i = 2; i < argc; ++i) {
         if(strcmp(argv[i],"-t") == 0) {
             if(i < argc-1) {
                 strcat(target,argv[i+1]);
